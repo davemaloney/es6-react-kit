@@ -1,14 +1,14 @@
 {
-  "name": "psadmin",
+  "name": "react-flux",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "**NOTE:** This app was built with [\"Building Applications with React and Flux\" on Pluralsight](http://www.pluralsight.com/author/cory-house). For the final demo built in that course, [go here](https://github.com/coryhouse/react-flux-building-applications) or see the [updated demo](https://github.com/coryhouse/react-flux-building-applications/tree/update) with the versions as of early 2017.",
+  "main": "./src/main.js",
   "scripts": {
     "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Cory House",
-  "license": "ISC",
+  "author": "Dave Maloney",
+  "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.5",
     "browserify": "^11.0.1",
@@ -23,5 +23,21 @@
     "react-router": "^0.13.3",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davemaloney/react-flux-starter-kit.git"
+  },
+  "keywords": [
+    "React",
+    "Flux",
+    "React-Router",
+    "Gulp",
+    "Browserify"
+  ],
+  "bugs": {
+    "url": "https://github.com/davemaloney/react-flux-starter-kit/issues"
+  },
+  "homepage": "https://github.com/davemaloney/react-flux-starter-kit#readme"
 }
