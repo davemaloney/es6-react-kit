@@ -4332,7 +4332,7 @@
     },
     "toastr": {
       "version": "2.1.2",
-      "from": "toastr@latest",
+      "from": "toastr@>=2.1.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/toastr/-/toastr-2.1.2.tgz"
     },
     "vinyl-source-stream": {
