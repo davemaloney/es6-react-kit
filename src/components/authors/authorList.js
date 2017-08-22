@@ -1,38 +1,33 @@
-'use strict';
+import React from 'react';
+import { Link } from 'react-router';
+import toastr from 'toastr';
 
-var React = require('react');
-var Router = require('react-router');
-var Link = Router.Link;
-var toastr = require('toastr');
+import AuthorActions from '../../actions/authorActions';
 
-var AuthorActions = require('../../actions/authorActions');
-
-var AuthorList = React.createClass({
+const AuthorList = React.createClass({
   propTypes: {
-    authors: React.PropTypes.array.isRequired
+    authors: React.PropTypes.array.isRequired,
   },
 
-  deleteAuthor: function(id, event) {
+  deleteAuthor: (id, event) => {
     event.preventDefault();
     AuthorActions.deleteAuthor(id);
     toastr.success('Author Deleted');
   },
 
-  render: function() {
-    var createAuthorRow = function(author) {
-      return (
-        <tr key={author.id}>
-          <td><a href='#' onClick={this.deleteAuthor.bind(this, author.id)}>Delete</a></td>
-          <td><Link to='manageAuthor' params={{id: author.id}}>{author.id}</Link></td>
-          <td>{author.firstName} {author.lastName}</td>
-        </tr>
-      );
-    };
+  render() {
+    const createAuthorRow = author => (
+      <tr key={author.id}>
+        <td><a role="button" tabIndex={0} onClick={this.deleteAuthor.bind(this, author.id)}>Delete</a></td>
+        <td><Link to="manageAuthor" params={{ id: author.id }}>{author.id}</Link></td>
+        <td>{author.firstName} {author.lastName}</td>
+      </tr>
+    );
 
     return (
-      <table className='table'>
+      <table className="table">
         <thead>
-          <th></th>
+          <th />
           <th>ID</th>
           <th>Name</th>
         </thead>
@@ -41,7 +36,7 @@ var AuthorList = React.createClass({
         </tbody>
       </table>
     );
-  }
+  },
 });
 
 

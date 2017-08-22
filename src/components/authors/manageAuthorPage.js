@@ -1,56 +1,54 @@
-'use strict';
+import React from 'react';
+import Router from 'react-router';
+import toastr from 'toastr';
 
-var React = require('react');
-var Router = require('react-router');
-var toastr = require('toastr');
+import AuthorForm from './authorForm';
+import AuthorActions from '../../actions/authorActions';
+import AuthorStore from '../../stores/authorStore';
 
-var AuthorForm = require('./authorForm');
-var AuthorActions = require('../../actions/authorActions');
-var AuthorStore = require('../../stores/authorStore');
-
-var ManageAuthorPage = React.createClass({
+const ManageAuthorPage = React.createClass({
   mixins: [
-    Router.Navigation
+    Router.Navigation,
   ],
 
   statics: {
-    willTransitionFrom: function(transition, component) {
+    willTransitionFrom(transition, component) {
       if (component.state.dirty && !confirm('Leave without saving?')) {
         transition.abort();
       }
-    }
+    },
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       author: {
         id: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
       },
       errors: {},
-      dirty: false
+      dirty: false,
     };
   },
-  
-  componentWillMount: function() {
-    var authorId = this.props.params.id; // comes from the path '/author/:id
+
+  componentWillMount() {
+    const authorId = this.props.params.id; // comes from the path '/author/:id
 
     if (authorId) {
-      this.setState({author: AuthorStore.getAuthorById(authorId)});
+      this.setState({ author: AuthorStore.getAuthorById(authorId) });
     }
   },
 
-  setAuthorState: function(event) {
-    this.setState({dirty: true});
-    var field = event.target.name;
-    var value = event.target.value;
+  setAuthorState(event) {
+    this.setState({ dirty: true });
+    const field = event.target.name;
+    const value = event.target.value;
     this.state.author[field] = value;
-    return this.setState({author: this.state.author});
+    return this.setState({ author: this.state.author });
   },
 
-  authorFormIsValid: function() {
-    var formIsValid = true;
+  authorFormIsValid() {
+    let formIsValid = true;
     this.state.errors = {}; // clear previous errors
 
     if (this.state.author.firstName.length < 2) {
@@ -63,11 +61,11 @@ var ManageAuthorPage = React.createClass({
       formIsValid = false;
     }
 
-    this.setState({errors: this.state.errors});
+    this.setState({ errors: this.state.errors });
     return formIsValid;
   },
 
-  saveAuthor: function(event) {
+  saveAuthor(event) {
     event.preventDefault();
     if (!this.authorFormIsValid()) {
       return;
@@ -77,24 +75,21 @@ var ManageAuthorPage = React.createClass({
       AuthorActions.updateAuthor(this.state.author);
     }
     AuthorActions.createAuthor(this.state.author);
-    this.setState({dirty: false});
-    toastr.success('Author <strong>' + 
-                   this.state.author.firstName + ' ' + 
-                   this.state.author.lastName + 
-                   '</strong> saved.');
+    this.setState({ dirty: false });
+    toastr.success(`Author <strong>${this.state.author.firstName} ${this.state.author.lastName}</strong> saved.`);
     this.transitionTo('authors');
   },
 
-  render: function() {
+  render() {
     return (
-      <AuthorForm 
+      <AuthorForm
         author={this.state.author}
         onChange={this.setAuthorState}
         onSave={this.saveAuthor}
         errors={this.state.errors}
       />
     );
-  }
+  },
 });
 
 module.exports = ManageAuthorPage;

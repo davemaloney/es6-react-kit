@@ -1,22 +1,20 @@
 /* eslint-disable strict */
 
-var React = require('react');
-var RouteHandler = require('react-router').RouteHandler;
-$ = jQuery = require('jquery');
+import React from 'react';
+import { RouteHandler } from 'react-router';
+// import $ from 'jquery';
 
-var Header = require('./common/Header');
+import Header from './common/header';
 
-var App = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <Header />
-        <div className='container-fluid'>
-          <RouteHandler />
-        </div>
+const App = React.createClass({
+  render: () => (
+    <div>
+      <Header />
+      <div className="container-fluid">
+        <RouteHandler />
       </div>
-    );
-  }
+    </div>
+  ),
 });
 
 module.exports = App;
