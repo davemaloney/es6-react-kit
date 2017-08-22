@@ -12,7 +12,7 @@ const ManageAuthorPage = React.createClass({
     this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
   },
 
-  routerWillLeave(nextLocation) {
+  routerWillLeave() {
     // Return false to prevent a transition w/o prompting the user,
     // or return a string to allow the user to decide:
     if (this.state.dirty) {
