@@ -7,7 +7,7 @@ module.exports = {
       id: 'cory-house',
       name: 'Cory House',
     },
-    length: '3:10',
+    time: '3:10',
     category: 'Software Practices',
   },
   {
@@ -18,7 +18,7 @@ module.exports = {
       id: 'cory-house',
       name: 'Cory House',
     },
-    length: '2:52',
+    time: '2:52',
     category: 'Software Architecture',
   },
   {
@@ -29,7 +29,7 @@ module.exports = {
       id: 'cory-house',
       name: 'Cory House',
     },
-    length: '2:30',
+    time: '2:30',
     category: 'Career',
   },
   {
@@ -40,7 +40,7 @@ module.exports = {
       id: 'cory-house',
       name: 'Cory House',
     },
-    length: '5:10',
+    time: '5:10',
     category: 'HTML5',
   }],
 };

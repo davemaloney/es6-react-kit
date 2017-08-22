@@ -59,11 +59,11 @@ const CourseForm = React.createClass({
         </SelectInput>
 
         <TextInput
-          name="length"
+          name="time"
           label="Length (H:MM)"
           onChange={this.props.onChange}
-          value={this.props.course.length}
-          error={this.props.errors.length}
+          value={this.props.course.time}
+          error={this.props.errors.time}
         />
 
         <TextInput

@@ -19,7 +19,7 @@ const CourseList = React.createClass({
     const createCourseRow = course => (
       <tr key={course.id}>
         <td><a href={course.watchHref}>{course.title}</a></td>
-        <td>{course.length}</td>
+        <td>{course.time}</td>
         <td>{course.category}</td>
         <td>{course.author.name}</td>
         <td><Link to={`course/${course.id}`}>Edit</Link></td>
