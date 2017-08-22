@@ -4,16 +4,17 @@ import toastr from 'toastr';
 
 import CourseActions from '../../actions/courseActions';
 
-const CourseList = React.createClass({
-  propTypes: {
-    courses: React.PropTypes.array.isRequired,
-  },
-
-  deleteCourse: (id, event) => {
+class CourseList extends React.Component {
+  deleteCourse(id, event) {
     event.preventDefault();
     CourseActions.deleteCourse(id);
     toastr.success('Course Deleted');
-  },
+  }
+
+  constructor() {
+    super();
+    this.deleteCourse = this.deleteCourse.bind(this);
+  }
 
   render() {
     const createCourseRow = course => (
@@ -23,7 +24,7 @@ const CourseList = React.createClass({
         <td>{course.category}</td>
         <td>{course.author.name}</td>
         <td><Link to={`course/${course.id}`}>Edit</Link></td>
-        <td><a role="button" tabIndex={0} onClick={this.deleteCourse.bind(this,course.id)}>Delete</a></td>
+        <td><a role="button" tabIndex={0} onClick={event => this.deleteCourse(course.id, event)}>Delete</a></td>
       </tr>
     );
 
@@ -44,7 +45,11 @@ const CourseList = React.createClass({
         </tbody>
       </table>
     );
-  },
-});
+  }
+}
+
+CourseList.propTypes = {
+  courses: React.PropTypes.array.isRequired,
+};
 
 module.exports = CourseList;

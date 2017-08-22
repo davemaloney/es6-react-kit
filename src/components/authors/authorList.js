@@ -4,21 +4,23 @@ import toastr from 'toastr';
 
 import AuthorActions from '../../actions/authorActions';
 
-const AuthorList = React.createClass({
-  propTypes: {
-    authors: React.PropTypes.array.isRequired,
-  },
-
-  deleteAuthor: (id, event) => {
+class AuthorList extends React.Component {
+  deleteAuthor(id, event) {
+    console.log(event);
     event.preventDefault();
     AuthorActions.deleteAuthor(id);
     toastr.success('Author Deleted');
-  },
+  }
+
+  constructor() {
+    super();
+    this.deleteAuthor = this.deleteAuthor.bind(this);
+  }
 
   render() {
     const createAuthorRow = author => (
       <tr key={author.id}>
-        <td><a role="button" tabIndex={0} onClick={this.deleteAuthor.bind(this, author.id)}>Delete</a></td>
+        <td><a role="button" tabIndex={0} onClick={event => this.deleteAuthor(author.id, event)}>Delete</a></td>
         <td><Link to={`author/${author.id}`}>{author.id}</Link></td>
         <td>{author.firstName} {author.lastName}</td>
       </tr>
@@ -38,8 +40,11 @@ const AuthorList = React.createClass({
         </tbody>
       </table>
     );
-  },
-});
+  }
+}
 
+AuthorList.propTypes = {
+  authors: React.PropTypes.array.isRequired,
+};
 
 module.exports = AuthorList;
