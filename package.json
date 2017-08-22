@@ -32,9 +32,9 @@
     "jquery": "^2.1.4",
     "lodash": "^4.17.4",
     "object-assign": "^4.1.1",
-    "react": "^0.13.3",
-    "react-dom": "^0.14.9",
-    "react-router": "^0.13.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^3.0.5",
     "reactify": "^1.1.1",
     "toastr": "^2.1.2",
     "vinyl-source-stream": "^1.1.0"

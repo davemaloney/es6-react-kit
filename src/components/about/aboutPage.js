@@ -1,20 +1,6 @@
 import React from 'react';
 
 const About = React.createClass({
-  statics: {
-    willTransitionTo: (transition, params, query, callback) => {
-      if (!confirm('Are you sure you want to read a page that\'s this boring?')) {
-        transition.abort();
-      } else {
-        callback();
-      }
-    },
-    willTransitionFrom: (transition) => {
-      if (!confirm('Are you sure you want to leave a page that\'s this exciting?')) {
-        transition.abort();
-      }
-    },
-  },
   render: () => (
     <div>
       <h1>About</h1>

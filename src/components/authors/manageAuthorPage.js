@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from 'react-router';
+import { withRouter, browserHistory } from 'react-router';
 import toastr from 'toastr';
 
 import AuthorForm from './authorForm';
@@ -7,16 +7,18 @@ import AuthorActions from '../../actions/authorActions';
 import AuthorStore from '../../stores/authorStore';
 
 const ManageAuthorPage = React.createClass({
-  mixins: [
-    Router.Navigation,
-  ],
 
-  statics: {
-    willTransitionFrom(transition, component) {
-      if (component.state.dirty && !confirm('Leave without saving?')) {
-        transition.abort();
-      }
-    },
+  componentDidMount() {
+    this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
+  },
+
+  routerWillLeave(nextLocation) {
+    // Return false to prevent a transition w/o prompting the user,
+    // or return a string to allow the user to decide:
+    if (this.state.dirty) {
+      return 'Leave without saving?';
+    }
+    return true;
   },
 
   getInitialState() {
@@ -75,9 +77,10 @@ const ManageAuthorPage = React.createClass({
       AuthorActions.updateAuthor(this.state.author);
     }
     AuthorActions.createAuthor(this.state.author);
-    this.setState({ dirty: false });
-    toastr.success(`Author <strong>${this.state.author.firstName} ${this.state.author.lastName}</strong> saved.`);
-    this.transitionTo('authors');
+    this.setState({ dirty: false }, () => {
+      toastr.success(`Author <strong>${this.state.author.firstName} ${this.state.author.lastName}</strong> saved.`);
+      browserHistory.push('/authors');
+    });
   },
 
   render() {
@@ -92,4 +95,4 @@ const ManageAuthorPage = React.createClass({
   },
 });
 
-module.exports = ManageAuthorPage;
+module.exports = withRouter(ManageAuthorPage);

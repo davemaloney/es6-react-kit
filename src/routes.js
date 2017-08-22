@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultRoute, Route, Redirect, NotFoundRoute } from 'react-router';
+import { Router, browserHistory, IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './components/app';
 import HomePage from './components/homePage';
@@ -9,17 +9,19 @@ import AboutPage from './components/about/aboutPage';
 import NotFoundPage from './components/notFoundPage';
 
 const routes = (
-  <Route name="app" path="/" handler={App}>
-    <DefaultRoute handler={HomePage} />
-    <Route name="authors" handler={AuthorPage} />
-    <Route name="addAuthor" path="author" handler={ManageAuthorPage} />
-    <Route name="manageAuthor" path="author/:id" handler={ManageAuthorPage} />
-    <Route name="about" handler={AboutPage} />
-    <Redirect from="about-us" to="about" />
-    <Redirect from="awthurs" to="authors" />
-    <Redirect from="about/*" to="about" />
-    <NotFoundRoute handler={NotFoundPage} />
-  </Route>
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={HomePage} />
+      <Route path="authors" component={AuthorPage} />
+      <Route path="author" component={ManageAuthorPage} />
+      <Route path="author/:id" component={ManageAuthorPage} />
+      <Route path="about" component={AboutPage} />
+      <Redirect from="about-us" to="about" />
+      <Redirect from="awthurs" to="authors" />
+      <Redirect from="about/*" to="about" />
+      <Route path="*" component={NotFoundPage} />
+    </Route>
+  </Router>
 );
 
 module.exports = routes;
