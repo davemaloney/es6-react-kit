@@ -5,17 +5,13 @@ import React from 'react';
 
 import Header from './common/header';
 
-const App = React.createClass({
-  render() {
-    return (
-      <div>
-        <Header />
-        <div className="container-fluid">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  },
-});
+const App = props => (
+  <div>
+    <Header />
+    <div className="container-fluid">
+      {props.children}
+    </div>
+  </div>
+);
 
 module.exports = App;
