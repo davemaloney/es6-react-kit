@@ -3215,7 +3215,7 @@
     },
     "prop-types": {
       "version": "15.5.10",
-      "from": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz",
+      "from": "prop-types@>=15.5.10 <16.0.0",
       "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz"
     },
     "pseudomap": {
