@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TextInput from '../common/textInput';
 
@@ -26,10 +27,23 @@ const AuthorForm = props => (
 );
 
 AuthorForm.propTypes = {
-  author: React.PropTypes.object.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.object,
+  author: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }).isRequired,
+  onSave: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
+};
+
+AuthorForm.defaultProps = {
+  errors: PropTypes.shape({
+    firstName: '',
+    lastName: '',
+  }),
 };
 
 module.exports = AuthorForm;

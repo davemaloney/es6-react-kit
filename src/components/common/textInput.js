@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TextInput extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class TextInput extends React.Component {
             className="form-control"
             name={this.props.name}
             ref={this.props.name}
-            placeholder={this.props.placeholder}
+            placeholder={this.props.placeholder ? this.props.placeholder : this.props.label}
             value={this.props.value}
             onChange={this.props.onChange}
           />
@@ -27,12 +28,18 @@ class TextInput extends React.Component {
 }
 
 TextInput.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string,
-  error: React.PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  error: PropTypes.string,
+};
+
+TextInput.defaultProps = {
+  placeholder: '',
+  value: '',
+  error: '',
 };
 
 module.exports = TextInput;

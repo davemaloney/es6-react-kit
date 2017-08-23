@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 
@@ -49,7 +50,17 @@ class CourseList extends React.Component {
 }
 
 CourseList.propTypes = {
-  courses: React.PropTypes.array.isRequired,
+  courses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    watchHref: PropTypes.string,
+    author: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    time: PropTypes.string,
+    category: PropTypes.string,
+  })).isRequired,
 };
 
 module.exports = CourseList;

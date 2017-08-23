@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class SelectInput extends React.Component {
   render() {
@@ -17,7 +18,7 @@ class SelectInput extends React.Component {
             value={this.props.value}
             onChange={this.props.onChange}
           >
-            <option value="" /> {/* Need to have this here to put a blank option on top */}
+            <option value="" disabled>Select {this.props.label}</option> {/* Need to have this here for placeholder */}
             {this.props.children}
           </select>
           <div className="input">{this.props.error}</div>
@@ -28,12 +29,21 @@ class SelectInput extends React.Component {
 }
 
 SelectInput.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string,
-  error: React.PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  error: PropTypes.string,
+};
+
+SelectInput.defaultProps = {
+  value: '',
+  children: null,
+  error: '',
 };
 
 module.exports = SelectInput;

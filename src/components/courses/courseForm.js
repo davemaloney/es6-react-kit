@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TextInput from '../common/textInput';
 import SelectInput from '../common/selectInput';
@@ -33,6 +34,7 @@ const CourseForm = (props) => {
       <TextInput
         name="watchHref"
         label="URL"
+        placeholder="https://www..."
         onChange={props.onChange}
         value={props.course.watchHref}
         error={props.errors.watchHref}
@@ -70,11 +72,39 @@ const CourseForm = (props) => {
 };
 
 CourseForm.propTypes = {
-  course: React.PropTypes.object.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  onAuthorChange: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.object,
+  course: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    watchHref: PropTypes.string,
+    author: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    time: PropTypes.string,
+    category: PropTypes.string,
+  }).isRequired,
+  onSave: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onAuthorChange: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    watchHref: PropTypes.string,
+    author: PropTypes.string,
+    time: PropTypes.string,
+    category: PropTypes.string,
+  }),
+};
+
+CourseForm.defaultProps = {
+  errors: PropTypes.shape({
+    id: '',
+    title: '',
+    watchHref: '',
+    author: '',
+    time: '',
+    category: '',
+  }),
 };
 
 module.exports = CourseForm;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter, browserHistory } from 'react-router';
 import toastr from 'toastr';
 
@@ -130,5 +131,21 @@ class ManageCoursePage extends React.Component {
     );
   }
 }
+
+ManageCoursePage.propTypes = {
+  params: PropTypes.shape({
+    id: PropTypes.string,
+  }),
+  route: PropTypes.shape().isRequired,
+  router: PropTypes.shape({
+    setRouteLeaveHook: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+ManageCoursePage.defaultProps = {
+  params: {
+    id: '',
+  },
+};
 
 module.exports = withRouter(ManageCoursePage);

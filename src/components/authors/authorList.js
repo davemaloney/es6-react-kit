@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 
@@ -19,9 +20,9 @@ class AuthorList extends React.Component {
   render() {
     const createAuthorRow = (author, i) => (
       <tr key={i}>
-        <td><a role="button" tabIndex={0} onClick={event => this.deleteAuthor(author.id, event)}>Delete</a></td>
-        <td><Link to={`author/${author.id}`}>{author.id}</Link></td>
         <td>{author.firstName} {author.lastName}</td>
+        <td><Link to={`author/${author.id}`}>Edit</Link></td>
+        <td><a role="button" tabIndex={0} onClick={event => this.deleteAuthor(author.id, event)}>Delete</a></td>
       </tr>
     );
 
@@ -29,9 +30,9 @@ class AuthorList extends React.Component {
       <table className="table">
         <thead>
           <tr>
-            <th />
-            <th>ID</th>
             <th>Name</th>
+            <th>Edit</th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -43,7 +44,11 @@ class AuthorList extends React.Component {
 }
 
 AuthorList.propTypes = {
-  authors: React.PropTypes.array.isRequired,
+  authors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  })).isRequired,
 };
 
 module.exports = AuthorList;
