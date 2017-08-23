@@ -5,20 +5,20 @@ import toastr from 'toastr';
 import CourseActions from '../../actions/courseActions';
 
 class CourseList extends React.Component {
+  constructor() {
+    super();
+    this.deleteCourse = this.deleteCourse.bind(this);
+  }
+
   deleteCourse(id, event) {
     event.preventDefault();
     CourseActions.deleteCourse(id);
     toastr.success('Course Deleted');
   }
 
-  constructor() {
-    super();
-    this.deleteCourse = this.deleteCourse.bind(this);
-  }
-
   render() {
-    const createCourseRow = course => (
-      <tr key={course.id}>
+    const createCourseRow = (course, i) => (
+      <tr key={i}>
         <td><a href={course.watchHref}>{course.title}</a></td>
         <td>{course.time}</td>
         <td>{course.category}</td>

@@ -4,24 +4,27 @@ import { Link } from 'react-router';
 import CourseList from './courseList';
 import CourseStore from '../../stores/courseStore';
 
-const CoursePage = React.createClass({
-  getInitialState() {
-    return {
+class CoursePage extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
       courses: CourseStore.getAllCourses(),
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
   componentWillMount() {
     CourseStore.addChangeListener(this._onChange);
-  },
+  }
 
   componentWillUnmount() {
     CourseStore.removeChangeListener(this._onChange);
-  },
+  }
 
   _onChange() {
     this.setState({ courses: CourseStore.getAllCourses() });
-  },
+  }
 
   render() {
     return (
@@ -31,7 +34,7 @@ const CoursePage = React.createClass({
         <CourseList courses={this.state.courses} />
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = CoursePage;

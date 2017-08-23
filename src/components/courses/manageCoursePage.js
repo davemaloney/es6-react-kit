@@ -6,23 +6,11 @@ import CourseForm from './courseForm';
 import CourseActions from '../../actions/courseActions';
 import CourseStore from '../../stores/courseStore';
 
-const ManageCoursePage = React.createClass({
+class ManageCoursePage extends React.Component {
+  constructor() {
+    super();
 
-  componentDidMount() {
-    this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
-  },
-
-  routerWillLeave() {
-    // Return false to prevent a transition w/o prompting the user,
-    // or return a string to allow the user to decide:
-    if (this.state.dirty) {
-      return 'Leave without saving?';
-    }
-    return true;
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       course: {
         id: '',
         title: '',
@@ -37,7 +25,11 @@ const ManageCoursePage = React.createClass({
       errors: {},
       dirty: false,
     };
-  },
+    this.saveCourse = this.saveCourse.bind(this);
+    this.setCourseState = this.setCourseState.bind(this);
+    this.setCourseAuthor = this.setCourseAuthor.bind(this);
+    this.routerWillLeave = this.routerWillLeave.bind(this);
+  }
 
   componentWillMount() {
     const courseId = this.props.params.id; // comes from the path '/course/:id
@@ -45,7 +37,11 @@ const ManageCoursePage = React.createClass({
     if (courseId) {
       this.setState({ course: CourseStore.getCourseById(courseId) });
     }
-  },
+  }
+
+  componentDidMount() {
+    this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
+  }
 
   setCourseState(event) {
     this.setState({ dirty: true });
@@ -53,14 +49,23 @@ const ManageCoursePage = React.createClass({
     const value = event.target.value;
     this.state.course[field] = value;
     return this.setState({ course: this.state.course });
-  },
+  }
 
   setCourseAuthor(event) {
     this.setState({ dirty: true });
     this.state.course.author.id = event.target.value;
     this.state.course.author.name = event.target.options[event.target.selectedIndex].text;
     return this.setState({ course: this.state.course });
-  },
+  }
+
+  routerWillLeave() {
+    // Return false to prevent a transition w/o prompting the user,
+    // or return a string to allow the user to decide:
+    if (this.state.dirty) {
+      return 'Leave without saving?';
+    }
+    return true;
+  }
 
   courseFormIsValid() {
     let formIsValid = true;
@@ -68,6 +73,11 @@ const ManageCoursePage = React.createClass({
 
     if (this.state.course.title.length < 10) {
       this.state.errors.title = 'Title must be at least 10 characters.';
+      formIsValid = false;
+    }
+
+    if (this.state.course.author.id.length < 1) {
+      this.state.errors.author = 'Please choose the author of this course.';
       formIsValid = false;
     }
 
@@ -88,7 +98,7 @@ const ManageCoursePage = React.createClass({
 
     this.setState({ errors: this.state.errors });
     return formIsValid;
-  },
+  }
 
   saveCourse(event) {
     event.preventDefault();
@@ -98,13 +108,15 @@ const ManageCoursePage = React.createClass({
 
     if (this.state.course.id) {
       CourseActions.updateCourse(this.state.course);
-    }
-    CourseActions.createCourse(this.state.course);
-    this.setState({ dirty: false }, () => {
+      toastr.success(`Course <strong>${this.state.course.title}</strong> updated.`);
+    } else {
+      CourseActions.createCourse(this.state.course);
       toastr.success(`Course <strong>${this.state.course.title}</strong> saved.`);
+    }
+    this.setState({ dirty: false }, () => {
       browserHistory.push('/courses');
     });
-  },
+  }
 
   render() {
     return (
@@ -116,7 +128,7 @@ const ManageCoursePage = React.createClass({
         errors={this.state.errors}
       />
     );
-  },
-});
+  }
+}
 
 module.exports = withRouter(ManageCoursePage);

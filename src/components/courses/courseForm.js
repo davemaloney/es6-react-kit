@@ -5,79 +5,76 @@ import SelectInput from '../common/selectInput';
 
 import AuthorStore from '../../stores/authorStore';
 
-const CourseForm = React.createClass({
-  propTypes: {
-    course: React.PropTypes.object.isRequired,
-    onSave: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    errors: React.PropTypes.object,
-  },
+const CourseForm = (props) => {
+  const authorList = () => ({
+    authors: AuthorStore.getAllAuthors(),
+  });
 
-  render() {
-    const authorList = () => {
-      return {
-        authors: AuthorStore.getAllAuthors(),
-      };
-    };
+  const createAuthorRow = author => (
+    <option
+      key={author.id}
+      value={author.id}
+    >
+      {author.firstName} {author.lastName}
+    </option>
+  );
 
-    const createAuthorRow = author => (
-      <option
-        key={author.id}
-        value={author.id}
+  return (
+    <form>
+      <h1>Manage Course</h1>
+      <TextInput
+        name="title"
+        label="Title"
+        onChange={props.onChange}
+        value={props.course.title}
+        error={props.errors.title}
+      />
+
+      <TextInput
+        name="watchHref"
+        label="URL"
+        onChange={props.onChange}
+        value={props.course.watchHref}
+        error={props.errors.watchHref}
+      />
+
+      <SelectInput
+        name="author"
+        label="Author"
+        onChange={props.onAuthorChange}
+        value={props.course.author.id}
+        error={props.errors.author}
       >
-        {author.firstName} {author.lastName}
-      </option>
-    );
+        {authorList().authors.map(createAuthorRow, this)}
+      </SelectInput>
 
-    return (
-      <form>
-        <h1>Manage Course</h1>
-        <TextInput
-          name="title"
-          label="Title"
-          onChange={this.props.onChange}
-          value={this.props.course.title}
-          error={this.props.errors.title}
-        />
+      <TextInput
+        name="time"
+        label="Length (H:MM)"
+        onChange={props.onChange}
+        value={props.course.time}
+        error={props.errors.time}
+      />
 
-        <TextInput
-          name="watchHref"
-          label="URL"
-          onChange={this.props.onChange}
-          value={this.props.course.watchHref}
-          error={this.props.errors.watchHref}
-        />
+      <TextInput
+        name="category"
+        label="Category"
+        onChange={props.onChange}
+        value={props.course.category}
+        error={props.errors.category}
+      />
 
-        <SelectInput
-          name="author"
-          label="Author"
-          onChange={this.props.onAuthorChange}
-          value={this.props.course.author.id}
-          error={this.props.errors.author}
-        >
-          {authorList().authors.map(createAuthorRow, this)}
-        </SelectInput>
+      <input type="submit" value="Save" className="btn btn-default" onClick={props.onSave} />
+    </form>
+  );
+};
 
-        <TextInput
-          name="time"
-          label="Length (H:MM)"
-          onChange={this.props.onChange}
-          value={this.props.course.time}
-          error={this.props.errors.time}
-        />
-
-        <TextInput
-          name="category"
-          label="Category"
-          onChange={this.props.onChange}
-          value={this.props.course.category}
-          error={this.props.errors.category}
-        />
-
-        <input type="submit" value="Save" className="btn btn-default" onClick={this.props.onSave} />
-      </form>
-    );
-  },
-});
+CourseForm.propTypes = {
+  course: React.PropTypes.object.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onAuthorChange: React.PropTypes.func.isRequired,
+  errors: React.PropTypes.object,
+};
 
 module.exports = CourseForm;

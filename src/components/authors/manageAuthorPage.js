@@ -6,23 +6,11 @@ import AuthorForm from './authorForm';
 import AuthorActions from '../../actions/authorActions';
 import AuthorStore from '../../stores/authorStore';
 
-const ManageAuthorPage = React.createClass({
+class ManageAuthorPage extends React.Component {
+  constructor() {
+    super();
 
-  componentDidMount() {
-    this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
-  },
-
-  routerWillLeave() {
-    // Return false to prevent a transition w/o prompting the user,
-    // or return a string to allow the user to decide:
-    if (this.state.dirty) {
-      return 'Leave without saving?';
-    }
-    return true;
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       author: {
         id: '',
         firstName: '',
@@ -31,7 +19,10 @@ const ManageAuthorPage = React.createClass({
       errors: {},
       dirty: false,
     };
-  },
+    this.saveAuthor = this.saveAuthor.bind(this);
+    this.setAuthorState = this.setAuthorState.bind(this);
+    this.routerWillLeave = this.routerWillLeave.bind(this);
+  }
 
   componentWillMount() {
     const authorId = this.props.params.id; // comes from the path '/author/:id
@@ -39,7 +30,11 @@ const ManageAuthorPage = React.createClass({
     if (authorId) {
       this.setState({ author: AuthorStore.getAuthorById(authorId) });
     }
-  },
+  }
+
+  componentDidMount() {
+    this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
+  }
 
   setAuthorState(event) {
     this.setState({ dirty: true });
@@ -47,7 +42,16 @@ const ManageAuthorPage = React.createClass({
     const value = event.target.value;
     this.state.author[field] = value;
     return this.setState({ author: this.state.author });
-  },
+  }
+
+  routerWillLeave() {
+    // Return false to prevent a transition w/o prompting the user,
+    // or return a string to allow the user to decide:
+    if (this.state.dirty) {
+      return 'Leave without saving?';
+    }
+    return true;
+  }
 
   authorFormIsValid() {
     let formIsValid = true;
@@ -65,7 +69,7 @@ const ManageAuthorPage = React.createClass({
 
     this.setState({ errors: this.state.errors });
     return formIsValid;
-  },
+  }
 
   saveAuthor(event) {
     event.preventDefault();
@@ -75,13 +79,15 @@ const ManageAuthorPage = React.createClass({
 
     if (this.state.author.id) {
       AuthorActions.updateAuthor(this.state.author);
-    }
-    AuthorActions.createAuthor(this.state.author);
-    this.setState({ dirty: false }, () => {
+      toastr.success(`Author <strong>${this.state.author.firstName} ${this.state.author.lastName}</strong> updated.`);
+    } else {
+      AuthorActions.createAuthor(this.state.author);
       toastr.success(`Author <strong>${this.state.author.firstName} ${this.state.author.lastName}</strong> saved.`);
+    }
+    this.setState({ dirty: false }, () => {
       browserHistory.push('/authors');
     });
-  },
+  }
 
   render() {
     return (
@@ -92,7 +98,7 @@ const ManageAuthorPage = React.createClass({
         errors={this.state.errors}
       />
     );
-  },
-});
+  }
+}
 
 module.exports = withRouter(ManageAuthorPage);

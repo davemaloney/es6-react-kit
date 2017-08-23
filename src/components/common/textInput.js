@@ -1,15 +1,6 @@
 import React from 'react';
 
-const TextInput = React.createClass({
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired,
-    placeholder: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string,
-    error: React.PropTypes.string,
-  },
-
+class TextInput extends React.Component {
   render() {
     const wrapperClass = (this.props.error && this.props.error.length > 0) ? 'form-group has-error' : 'form-group';
 
@@ -32,7 +23,16 @@ const TextInput = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+TextInput.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  label: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  value: React.PropTypes.string,
+  error: React.PropTypes.string,
+};
 
 module.exports = TextInput;

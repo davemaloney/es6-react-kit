@@ -1,15 +1,6 @@
 import React from 'react';
 
-const SelectInput = React.createClass({
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired,
-    placeholder: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string,
-    error: React.PropTypes.string,
-  },
-
+class SelectInput extends React.Component {
   render() {
     const wrapperClass = (this.props.error && this.props.error.length > 0) ? 'form-group has-error' : 'form-group';
 
@@ -26,13 +17,23 @@ const SelectInput = React.createClass({
             value={this.props.value}
             onChange={this.props.onChange}
           >
+            <option value="" /> {/* Need to have this here to put a blank option on top */}
             {this.props.children}
           </select>
           <div className="input">{this.props.error}</div>
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+SelectInput.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  label: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  value: React.PropTypes.string,
+  error: React.PropTypes.string,
+};
 
 module.exports = SelectInput;
